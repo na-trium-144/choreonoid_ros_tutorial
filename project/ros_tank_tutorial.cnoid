@@ -25,12 +25,13 @@ items:
           data:
             file: "../../choreonoid/share/model/Tank/SimpleTank.body"
             format: CHOREONOID-BODY
-            rootPosition: [ 0, 0, 0.1 ]
+            rootPosition: [ 1.89631244, 0.00484962222, 0.100940177 ]
             rootAttitude: [
-              1, 0, 0,
-              0, 1, 0,
-              0, 0, 1 ]
-            jointDisplacements: [ 0, 0, 0, 0 ]
+              0.726682071, -0.686962641, -0.00393673542,
+              0.686952555, 0.726692735, -0.00372249774,
+              0.00541801391, 7.21918637e-07, 0.999985322 ]
+            jointDisplacements: [ 4.28049e-05, -1.12366, 0, 0 ]
+            initialJointDisplacements: [ 0, 0, 0, 0 ]
             initialRootPosition: [ 0, 0, 0.1 ]
             initialRootAttitude: [
               1, 0, 0,
@@ -42,8 +43,28 @@ items:
             lock_location: false
             scene_sensitive: true
             zmp: [ 0, 0, 0 ]
+          children:
+            -
+              id: 3
+              name: "SimpleController"
+              plugin: Body
+              class: SimpleControllerItem
+              data:
+                isNoDelayMode: false
+                controllerOptions: ""
+                controller: "RttTankController"
+                base_directory: "Controller directory"
+                reloading: false
+                export_symbols: false
+            -
+              id: 4
+              name: "BodyPublisher"
+              plugin: ROS
+              class: BodyPublisherItem
+              data:
+                max_publishing_rate: 30
         -
-          id: 3
+          id: 6
           name: "Labo1"
           plugin: Body
           class: BodyItem
@@ -69,10 +90,11 @@ items:
             scene_sensitive: true
             zmp: [ 0, 0, 0 ]
         -
-          id: 4
+          id: 8
           name: "AISTSimulator"
           plugin: Body
           class: AISTSimulatorItem
+          is_selected: true
           data:
             time_step: 0.001
             realtime_sync_mode: compensatory
@@ -86,6 +108,7 @@ items:
             record_collision_data: false
             controller_options: ""
             block_scene_view_edit_mode: false
+            time_sync_items: [ 5, 7 ]
             dynamicsMode: "Forward dynamics"
             integrationMode: semi-implicit_euler
             gravity: [ 0, 0, -9.80665 ]
@@ -100,6 +123,32 @@ items:
             kinematicWalking: false
             2Dmode: false
             oldAccelSensorMode: false
+          children:
+            -
+              id: 9
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data:
+                enabled: true
+                max_frame_rate: 1000
+                max_latency: 1
+                record_vision_data: false
+                thread_mode: Sensor
+                best_effort: true
+                all_scene_objects: true
+                range_sensor_precision_ratio: 2
+                depth_error: 0
+                enable_head_light: true
+                enable_additional_lights: true
+                antialiasing: false
+        -
+          id: 10
+          name: "WorldROS"
+          plugin: ROS
+          class: WorldROSItem
+          data:
+            max_clock_publishing_rate: 100
 views:
   -
     id: 0
@@ -112,7 +161,7 @@ views:
     class: ItemTreeView
     mounted: true
     state:
-      expanded: [ 1 ]
+      expanded: [ 1, 2, 3, 6, 8 ]
   -
     id: 2
     plugin: Base
@@ -144,7 +193,7 @@ views:
         -
           camera: [ System, Perspective ]
           isCurrent: true
-          eye: [ 9.05692, -6.59113, 3.32613 ]
+          eye: [ 10.8282, -8.71789, 3.90742 ]
           direction: [ -0.626295, 0.752003, -0.205538 ]
           up: [ -0.131536, 0.157937, 0.978649 ]
         -
@@ -227,9 +276,9 @@ views:
     mounted: true
 toolbars:
   "TimeBar":
-    current_time: 0
+    current_time: 44.234
     min_time: 0
-    max_time: 30
+    max_time: 88.372
     frame_rate: 1000
     playback_frame_rate: 60
     idle_loop_driven_mode: false
@@ -269,7 +318,7 @@ Body:
         show_cm_projection: false
         show_zmp: false
       -
-        body_item: 3
+        body_item: 6
         show_cm: false
         show_cm_projection: false
         show_zmp: false
@@ -295,7 +344,7 @@ viewAreas:
             -
               type: splitter
               orientation: vertical
-              sizes: [ 416, 416 ]
+              sizes: [ 417, 417 ]
               children:
                 -
                   type: pane
@@ -307,7 +356,7 @@ viewAreas:
             -
               type: splitter
               orientation: vertical
-              sizes: [ 624, 208 ]
+              sizes: [ 626, 208 ]
               children:
                 -
                   type: pane
@@ -319,7 +368,7 @@ viewAreas:
         -
           type: splitter
           orientation: vertical
-          sizes: [ 194, 638 ]
+          sizes: [ 194, 640 ]
           children:
             -
               type: pane
@@ -327,7 +376,7 @@ viewAreas:
             -
               type: splitter
               orientation: vertical
-              sizes: [ 277, 357 ]
+              sizes: [ 278, 358 ]
               children:
                 -
                   type: pane
